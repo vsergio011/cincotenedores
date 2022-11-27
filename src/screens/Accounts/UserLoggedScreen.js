@@ -1,10 +1,10 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
-export function AddRestaurantScreen() {
+export function UserLoggedScreen() {
   return (
     <View>
-      <Text>addRestaurantScreen</Text>
+      <Text>UserLoggedScreen</Text>
     </View>
   )
 }
