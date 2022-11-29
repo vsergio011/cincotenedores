@@ -3,6 +3,7 @@ import { Text, Image } from "@rneui/base";
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import { styles } from "./LoginScreen.styles";
+import { LoginForm } from "../../../components/Auth/LoginForm";
 import { screen } from "../../../utils";
 export function LoginScreen() {
   const navigation = useNavigation();
@@ -10,15 +11,21 @@ export function LoginScreen() {
     navigation.navigate(screen.account.register);
   };
   return (
-    <View>
+    <ScrollView>
       <Image
         source={require("../../../../assets/img/5-tenedores-letras-icono-logo.png")}
         style={styles.image}
       />
-      <View style = {styles.content}>
-        <Text>Estamos en el login</Text>
-        <Text onPress={goToRegister}>Registrarse</Text>
+      <View style={styles.content}>
+        <LoginForm />
+        
+        <Text style={styles.textRegister}>
+          ¿aun no tienes cuenta?{" "}
+          <Text style={styles.btnRegister} onPress={goToRegister}>
+            Registrarse
+          </Text>{" "}
+        </Text>
       </View>
-    </View>
+    </ScrollView>
   );
 }
