@@ -2,22 +2,26 @@ import { View, Text } from "react-native";
 import React, { useState } from "react";
 import { ListItem, Icon } from "@rneui/base";
 import { map } from "lodash";
-import { Modal } from "../../components/Shared";
+import { Modal } from "../../components";
+import {ChangeDisplayNameForm} from "./ChangeDisplayNameForm"
+import {ChangeEmailForm} from "./ChangeEmailForm"
+import {ChangePasswordForm} from "./ChangePasswordForm"
 
-export function AccountOptions() {
+export function AccountOptions(props) {
+  const {onReload} = props;
   const [showModal, setShowModal] = useState(false);
     const [renderComponent, setRenderComponent] = useState(null)
   const onCloseOpenModal = () => setShowModal((prevState) => !prevState);
   const selectedComponent = (key) => {
     if (key === "displayName") {
-        setRenderComponent(<Text>Cambiar nombre </Text>)
+        setRenderComponent(<ChangeDisplayNameForm onClose={onCloseOpenModal} onReload={onReload}/>)
     }
     if (key === "displayEmail") {
-        setRenderComponent(<Text>Cambiar Email </Text>)
+        setRenderComponent(<ChangeEmailForm onClose={onCloseOpenModal} onReload={onReload}/>)
     }
 
     if (key === "displayPassword") {
-        setRenderComponent(<Text>Cambiar password </Text>)
+        setRenderComponent(<ChangePasswordForm onClose={onCloseOpenModal}/>)
     }
     onCloseOpenModal();
   };
