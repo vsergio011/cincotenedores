@@ -2,11 +2,15 @@ import react, { useState, useEffect } from "react";
 import { View, Text } from "react-native";
 import { Icon } from "@rneui/themed";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { screen } from "../../../utils";
+import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
+import { screen, db } from "../../../utils";
 import { styles } from "./RestaurantsScreen.styles";
+import { LoadingModal } from "../../../components/Shared";
+import { ListRestaurants } from "../../../components/Restaurants";
 export function RestaurantsScreen(props) {
   const { navigation } = props;
   const [currentUser, setCurrentUser] = useState(null);
+  const [restaurants, setRestaurants] = useState(null);
   const goToAddRestaurant = () => {
     navigation.navigate(screen.restaurant.addRestaurant);
   };
@@ -18,9 +22,25 @@ export function RestaurantsScreen(props) {
     });
   }, []);
 
+  useEffect(() => {
+    const q = query(
+      collection(db, "restaurants"),
+      orderBy("createdAt", "desc")
+    );
+
+    onSnapshot(q, (snapShot) => {
+      setRestaurants(snapShot.docs);
+    });
+  }, []);
+
   return (
     <View style={styles.content}>
-      <Text>Estamos en la screen de restaurantes</Text>
+      {!restaurants ? (
+        <LoadingModal show text="Cargando" />
+      ) : (
+        <ListRestaurants restaurants={restaurants}/>
+      )}
+
       {currentUser && (
         <Icon
           reverse
