@@ -10,9 +10,9 @@ import {
 } from "firebase/firestore";
 import { db } from "../../../utils";
 import { styles } from "./RestaurantScreen.styles";
-import { PhotoCarousel } from "../../../components/Shared";
-
-const{width} = Dimensions.get("window")
+import { PhotoCarousel, Loading } from "../../../components/Shared";
+import { Header,Info } from "../../../components/Restaurant";
+const { width } = Dimensions.get("window");
 
 export function RestaurantScreen(props) {
   const { route } = props;
@@ -25,12 +25,18 @@ export function RestaurantScreen(props) {
     });
   }, [route.params.id]);
   console.log(route.params);
-
-  if (!restaurant) return null;
+  if (!restaurant)
+    return <Loading show text="Cargando restaurantes" hideDots/>;
 
   return (
     <ScrollView style={styles.content}>
-      <PhotoCarousel arrayImages={restaurant.images} height={250} width={width} />
+      <PhotoCarousel
+        arrayImages={restaurant.images}
+        height={250}
+        width={width}
+      />
+      <Header restaurant={restaurant} />
+      <Info restaurant={restaurant}/>
     </ScrollView>
   );
 }
